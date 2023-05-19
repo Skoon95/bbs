@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.shyoon.studywebbbs.mappers.ArticleMapper">
+    <insert id="insertArticle"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="dev.shyoon.studywebbbs.entities.ArticleEntity">
+        INSERT INTO `study_bbs`.`articles`(`title`,`content`, `created_at`, `deleted_flag`, `client_ip`, `client_ua`)
+        VALUES (#{title},
+                #{content},
+                IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                       #{isDeleted},
+                       #{clientIp},
+                       #{clientUa})
+    </insert>
+    <insert id="insertAttachment"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="dev.shyoon.studywebbbs.entities.AttachmentEntity">
+        INSERT INTO `study_bbs`.`attachments`(`article_index`, `file_name`, `file_size`, `file_content_type`,`file_data`)
+        VALUES (#{articleIndex},
+                #{fileName},
+                #{fileSize},
+                #{fileContentType},
+                #{fileData})
+    </insert>
+
+
+</mapper>
