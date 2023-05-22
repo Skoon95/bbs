@@ -21,9 +21,19 @@ public class ArticleService {
         this.articleMapper = articleMapper;
     }
 
+    public ArticleEntity readArticle(int index){
+        ArticleEntity article = this.articleMapper.selectArticleByIndex(index);
+        if (article != null && !article.isDeleted()){
+            article.setView(article.getView()+1);
+            this.articleMapper.updateArticle(article);
+        }
+        return article;
+    }
+
     @Transactional
-    public boolean write(HttpServletRequest request, ArticleEntity article, MultipartFile[] files) throws IOException {
-        article.setCreatedAt(new Date())
+    public boolean putArticle(HttpServletRequest request, ArticleEntity article, MultipartFile[] files) throws IOException {
+        article.setView(0)
+                .setCreatedAt(new Date())
                 .setClientIp(request.getRemoteAddr())
                 .setClientUa(request.getHeader("User-Agent"))
                 .setDeleted(false);

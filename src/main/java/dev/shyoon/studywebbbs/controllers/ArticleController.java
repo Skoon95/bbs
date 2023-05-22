@@ -29,6 +29,16 @@ public class ArticleController {
     }
 
 
+    @RequestMapping(value = "read",
+    method = RequestMethod.GET,
+    produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getRead(@RequestParam(value = "index") int index){
+        ModelAndView modelAndView = new ModelAndView("article/read");
+        modelAndView.addObject("article",this.articleService.readArticle(index));
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "write",
     method = RequestMethod.GET,
     produces = MediaType.TEXT_HTML_VALUE)
@@ -46,7 +56,7 @@ public class ArticleController {
         if (files==null){
             files = new MultipartFile[0];
         }
-        boolean result = this.articleService.write(request,article,files);
+        boolean result = this.articleService.putArticle(request,article,files);
         ModelAndView modelAndView = new ModelAndView();
         if (result){
             modelAndView.setViewName("redirect:/article/read?index="+article.getIndex());

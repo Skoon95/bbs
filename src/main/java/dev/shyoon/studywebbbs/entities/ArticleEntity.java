@@ -7,6 +7,7 @@ public class ArticleEntity {
     private int index;
     private String title;
     private String content;
+    private int view;
     private Date createdAt;
     private boolean isDeleted;
     private String clientIp;
@@ -36,6 +37,15 @@ public class ArticleEntity {
 
     public ArticleEntity setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public ArticleEntity setView(int view) {
+        this.view = view;
         return this;
     }
 
