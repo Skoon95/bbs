@@ -29,9 +29,26 @@
     <tbody>
     <tr>
         <td colspan="4" th:utext="${article.getContent()}"></td>
-<!--        th:text html 태그 인식을 못함 th:utext html태그 인식을 함-->
+        <!--        th:text html 태그 인식을 못함 th:utext html태그 인식을 함-->
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+        <th th:text="${'첨부파일(' + attachments.length +')'}"></th>
+        <td colspan="3" th:if="${attachments == null || attachments.length ==0}">
+            첨부파일이 없습니다.
+        </td>
+        <td colspan="3" th:if="${attachments != null || attachments.length > 0}">
+            <ul>
+                <li th:each="attachment : ${attachments}">
+                    <a target="_blank"
+                       th:text="${attachment.getFileName()}"
+                       th:href="@{/article/download (index=${attachment.getIndex()})}"></a>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tfoot>
 </table>
 </body>
 </html>

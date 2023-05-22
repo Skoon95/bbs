@@ -34,7 +34,11 @@ public class ArticleController {
     produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getRead(@RequestParam(value = "index") int index){
         ModelAndView modelAndView = new ModelAndView("article/read");
-        modelAndView.addObject("article",this.articleService.readArticle(index));
+        ArticleEntity article = this.articleService.readArticle(index);
+        modelAndView.addObject("article",article);
+        if (article != null){
+            modelAndView.addObject("attachments",this.articleService.getAttachmentsOf(article));
+        }
         return modelAndView;
     }
 

@@ -11,6 +11,7 @@ public interface ArticleMapper {
     int insertAttachment(AttachmentEntity attachment);
 
     ArticleEntity selectArticleByIndex(@Param(value = "index")int index);
+    AttachmentEntity[] selectAttachmentsByArticleIndexNoData(@Param(value = "articleIndex")int articleIndex);
 
     int updateArticle(ArticleEntity article);
 

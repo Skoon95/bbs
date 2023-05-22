@@ -30,6 +30,10 @@ public class ArticleService {
         return article;
     }
 
+    public AttachmentEntity[] getAttachmentsOf(ArticleEntity article){
+        return this.articleMapper.selectAttachmentsByArticleIndexNoData(article.getIndex());
+    }
+
     @Transactional
     public boolean putArticle(HttpServletRequest request, ArticleEntity article, MultipartFile[] files) throws IOException {
         article.setView(0)

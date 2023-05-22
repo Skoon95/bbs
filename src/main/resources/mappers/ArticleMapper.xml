@@ -47,6 +47,17 @@
         WHERE `index` = #{index}
         LIMIT 1
     </select>
+    <select id="selectAttachmentsByArticleIndexNoData"
+            resultType="dev.shyoon.studywebbbs.entities.AttachmentEntity">
+        SELECT `index`             AS `index`,
+               `article_index`     AS `articleIndex`,
+               `file_name`         AS `fileName`,
+               `file_size`         AS `fileSize`,
+               `file_content_type` AS `fileContentType`
+        FROM `study_bbs`.`attachments`
+        WHERE `article_index` = #{articleIndex}
+        ORDER BY `index`
+    </select>
 
     <update id="updateArticle"
             parameterType="dev.shyoon.studywebbbs.entities.ArticleEntity">
