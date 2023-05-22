@@ -28,7 +28,8 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="4" th:text="${article.getContent()}"></td>
+        <td colspan="4" th:utext="${article.getContent()}"></td>
+<!--        th:text html 태그 인식을 못함 th:utext html태그 인식을 함-->
     </tr>
     </tbody>
 </table>
