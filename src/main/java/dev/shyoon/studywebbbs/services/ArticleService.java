@@ -2,6 +2,7 @@ package dev.shyoon.studywebbbs.services;
 
 import dev.shyoon.studywebbbs.entities.ArticleEntity;
 import dev.shyoon.studywebbbs.entities.AttachmentEntity;
+import dev.shyoon.studywebbbs.entities.ImageEntity;
 import dev.shyoon.studywebbbs.mappers.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,26 @@ public class ArticleService {
             inserted += this.articleMapper.insertAttachment(attachment);
         }
         return inserted == files.length;
+    }
+
+    public ImageEntity putImage(HttpServletRequest request, MultipartFile file) throws IOException {
+        ImageEntity image = new ImageEntity()
+                .setName(file.getOriginalFilename())
+                .setSize(file.getSize())
+                .setContentType(file.getContentType())
+                .setData(file.getBytes())
+                .setCreatedAt(new Date())
+                .setClientIp(request.getRemoteAddr())
+                .setClientUa(request.getHeader("User-Agent"));
+        this.articleMapper.insertImage(image);
+        return image;
+    }
+
+    public ImageEntity getIndex(int index){
+        return this.articleMapper.selectImageByIndex(index);
+    }
+
+    public AttachmentEntity getAttachment(int index){
+        return this.articleMapper.selectAttachment(index);
     }
 }

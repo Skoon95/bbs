@@ -6,7 +6,7 @@ public class AttachmentEntity {
     private int index;
     private int articleIndex;
     private String fileName;
-    private int fileSize;
+    private long fileSize;
     private String fileContentType;
     private byte[] fileData;
 
@@ -37,11 +37,11 @@ public class AttachmentEntity {
         return this;
     }
 
-    public int getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 
-    public AttachmentEntity setFileSize(int fileSize) {
+    public AttachmentEntity setFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }

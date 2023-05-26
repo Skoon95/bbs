@@ -2,10 +2,11 @@ package dev.shyoon.studywebbbs.controllers;
 
 import dev.shyoon.studywebbbs.entities.ArticleEntity;
 import dev.shyoon.studywebbbs.entities.AttachmentEntity;
+import dev.shyoon.studywebbbs.entities.ImageEntity;
 import dev.shyoon.studywebbbs.services.ArticleService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,6 +70,52 @@ public class ArticleController {
             modelAndView.addObject("result",result);
         }
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "uploadImage",
+    method = RequestMethod.POST,
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postUploadImage(HttpServletRequest request,
+            @RequestParam(value = "upload") MultipartFile file) throws IOException {
+//        ckeditor 쪽에서 upload 로 보냄
+        ImageEntity image = this.articleService.putImage(request,file);
+        JSONObject responseObject = new JSONObject(){{
+           put("url","/article/downloadImage?index="+image.getIndex());
+        }};
+        return responseObject.toString();
+    }
+
+    @RequestMapping(value = "downloadImage",method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getDownloadImage(@RequestParam(value = "index")int index){
+        ImageEntity image = this.articleService.getIndex(index);
+        ResponseEntity<byte[]> response;
+        if (image ==null){
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentLength(image.getSize());
+            headers.setContentType(MediaType.parseMediaType(image.getContentType()));
+            response = new ResponseEntity<>(image.getData(),headers,HttpStatus.OK);
+        }
+        return response;
+    }
+
+//    첨부파일 다운로드
+    @RequestMapping(value = "download",method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getDownload(@RequestParam(value = "index")int index){
+        AttachmentEntity attachment = this.articleService.getAttachment(index);
+        ResponseEntity<byte[]> response;
+        if (attachment ==null){
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentLength(attachment.getFileSize());
+            headers.setContentType(MediaType.parseMediaType(attachment.getFileContentType()));
+            response = new ResponseEntity<>(attachment.getFileData(),headers,HttpStatus.OK);
+        }
+        return response;
     }
 
 }

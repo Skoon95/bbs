@@ -32,6 +32,21 @@
                 #{fileData})
     </insert>
 
+    <insert id="insertImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="dev.shyoon.studywebbbs.entities.ImageEntity">
+        INSERT INTO `study_bbs`.`images`(`name`, `size`, `content_type`, `data`, `created_at`, `client_ip`, `client_ua`)
+        VALUES (#{name},
+                #{size},
+                #{contentType},
+                #{data},
+                IFNULL(#{createdAt}, DEFAULT(`created_at`)),
+                #{clientIp},
+                #{clientUa})
+    </insert>
+
 
     <select id="selectArticleByIndex"
             resultType="dev.shyoon.studywebbbs.entities.ArticleEntity">
@@ -56,6 +71,34 @@
                `file_content_type` AS `fileContentType`
         FROM `study_bbs`.`attachments`
         WHERE `article_index` = #{articleIndex}
+        ORDER BY `index`
+    </select>
+
+    <select id="selectImageByIndex"
+            resultType="dev.shyoon.studywebbbs.entities.ImageEntity">
+        SELECT `index`        AS `index`,
+               `name`         AS `name`,
+               `size`         AS `size`,
+               `content_type` AS `contentType`,
+               `data`         AS `data`,
+               `created_at`   AS `createdAt`,
+               `client_ip`    AS `clientIp`,
+               `client_ua`    AS `clientUa`
+        FROM `study_bbs`.`images`
+        WHERE `index` = #{index}
+        ORDER BY `index`
+    </select>
+
+    <select id="selectAttachment"
+            resultType="dev.shyoon.studywebbbs.entities.AttachmentEntity">
+        SELECT `index` AS `index`,
+               `article_index` AS `atricleIndex`,
+               `file_name` AS `fileName`,
+               `file_size` AS `fileSize`,
+               `file_content_type` AS `fileContentType`,
+               `file_data` AS `fileData`
+        FROM `study_bbs`.`attachments`
+        WHERE `index` = #{index}
         ORDER BY `index`
     </select>
 
