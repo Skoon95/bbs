@@ -2,6 +2,7 @@ package dev.shyoon.studywebbbs.services;
 
 import dev.shyoon.studywebbbs.entities.ArticleEntity;
 import dev.shyoon.studywebbbs.entities.AttachmentEntity;
+import dev.shyoon.studywebbbs.entities.CommentEntity;
 import dev.shyoon.studywebbbs.entities.ImageEntity;
 import dev.shyoon.studywebbbs.mappers.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +79,18 @@ public class ArticleService {
     public AttachmentEntity getAttachment(int index){
         return this.articleMapper.selectAttachment(index);
     }
+
+    public boolean putComment(HttpServletRequest request,CommentEntity comment){
+        comment.setDeleted(false)
+                .setCreatedAt(new Date())
+                .setClientIp(request.getRemoteAddr())
+                .setClientUa(request.getHeader("User-Agent"));
+        return this.articleMapper.insertComment(comment)>0;
+    }
+
+    public CommentEntity[] getCommentsOf(int articleIndex){
+
+        return this.articleMapper.selectCommentByArticleIndex(articleIndex);
+    }
+
 }

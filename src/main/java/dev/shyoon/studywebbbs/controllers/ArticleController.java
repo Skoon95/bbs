@@ -2,8 +2,10 @@ package dev.shyoon.studywebbbs.controllers;
 
 import dev.shyoon.studywebbbs.entities.ArticleEntity;
 import dev.shyoon.studywebbbs.entities.AttachmentEntity;
+import dev.shyoon.studywebbbs.entities.CommentEntity;
 import dev.shyoon.studywebbbs.entities.ImageEntity;
 import dev.shyoon.studywebbbs.services.ArticleService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -116,6 +118,24 @@ public class ArticleController {
             response = new ResponseEntity<>(attachment.getFileData(),headers,HttpStatus.OK);
         }
         return response;
+    }
+
+    @RequestMapping(value = "comment",
+    method = RequestMethod.POST,
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postComment(HttpServletRequest request,
+                              CommentEntity comment){
+        boolean result = this.articleService.putComment(request, comment);
+        return String.valueOf(result);
+    }
+
+    @RequestMapping(value = "comment",
+    method = RequestMethod.GET,
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CommentEntity[] getComment(@RequestParam(value = "articleIndex")int articleIndex){
+        return this.articleService.getCommentsOf(articleIndex);
     }
 
 }

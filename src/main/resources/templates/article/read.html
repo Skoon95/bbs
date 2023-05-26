@@ -11,6 +11,7 @@
         alert('존재하지 않는 게시글 입니다.');
         window.close();
     </script>
+    <script defer th:src="@{/article/resources/scripts/read.js}"></script>
 </head>
 <body th:if="${article != null && !article.isDeleted()}">
 <table>
@@ -49,6 +50,27 @@
         </td>
     </tr>
     </tfoot>
+</table>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <form id="commentForm">
+                <input name="articleIndex" type="hidden" th:value="${article.getIndex()}">
+                <label>
+                    <input autofocus maxlength="100" name="content" placeholder="댓글" type="text">
+                </label>
+                <input type="submit" value="작성">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="#" id="refreshComment">댓글 다시 불러오기</a>
+        </td>
+    </tr>
+    </tbody>
+    <tbody id="commentContainer"></tbody>
 </table>
 </body>
 </html>
