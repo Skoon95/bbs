@@ -8,6 +8,20 @@ function refreshComment(){
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const comments = JSON.parse(xhr.responseText);
+                for (const comment of comments){
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    const headDiv = document.createElement('div'); //날짜
+                    const bodyDiv = document.createElement('div'); // 내용
+
+                    const dtDate = comment['createdAt'].split('T')[0]; //2023-05-26
+                    const dtTime = comment['createdAt'].split('T')[1].split('.')[0]; // 02:31:32
+                    headDiv.innerText = `${dtDate} ${dtTime}`;
+                    bodyDiv.innerText = comment['content'];
+                    td.append(headDiv,bodyDiv); //td 의 자식으로 두 개의 인자를 넣음
+                    tr.append(td); // tr의 자식으로 td를 가짐
+                    commentContainer.append(tr); //가상의 tr를 만듬
+                }
             } else {
                 alert('서바와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요');
             }
