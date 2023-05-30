@@ -17,13 +17,15 @@ public interface ArticleMapper {
 
     ArticleEntity selectArticleByIndex(@Param(value = "index")int index);
     AttachmentEntity[] selectAttachmentsByArticleIndexNoData(@Param(value = "articleIndex")int articleIndex);
-
     AttachmentEntity selectAttachment(@Param(value = "index")int index);
 
+    CommentEntity selectComment(@Param(value = "index") int index);
     CommentEntity[] selectCommentByArticleIndex(@Param(value = "articleIndex")int articleIndex);
 
     ImageEntity selectImageByIndex(@Param(value = "index")int index);
 
     int updateArticle(ArticleEntity article);
+
+    int updateComment(CommentEntity comment);
 
 }

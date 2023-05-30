@@ -93,4 +93,13 @@ public class ArticleService {
         return this.articleMapper.selectCommentByArticleIndex(articleIndex);
     }
 
+    public boolean deleteComment(CommentEntity comment) {
+        comment = this.articleMapper.selectComment(comment.getIndex());
+        if (comment == null) {
+            return false;
+        }
+        comment.setDeleted(true);
+        return this.articleMapper.updateComment(comment) > 0;
+    }
+
 }

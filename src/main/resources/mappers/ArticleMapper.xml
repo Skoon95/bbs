@@ -133,6 +133,21 @@
         ORDER BY `index` ASC
     </select>
 
+    <select id="selectComment"
+            resultType="dev.shyoon.studywebbbs.entities.CommentEntity">
+        SELECT `index`         AS `index`,
+               `article_index` AS `articleIndex`,
+               `comment_index` AS `commentIndex`,
+               `content`       AS `content`,
+               `deleted_flag`  AS `isDeleted`,
+               `created_at`    AS `createdAt`,
+               `client_ip`     AS `clientIp`,
+               `client_ua`     AS `clientUa`
+        FROM `study_bbs`.`comments`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
     <update id="updateArticle"
             parameterType="dev.shyoon.studywebbbs.entities.ArticleEntity">
         UPDATE `study_bbs`.`articles`
@@ -147,4 +162,17 @@
         LIMIT 1
     </update>
 
+    <update id="updateComment"
+            parameterType="dev.shyoon.studywebbbs.entities.CommentEntity">
+        UPDATE `study_bbs`.`comments`
+        SET `article_index` =#{articleIndex},
+            `comment_index` =#{commentIndex},
+            `content`       = #{content},
+            `deleted_flag`  = #{isDeleted},
+            `created_at`    = #{createdAt},
+            `client_ip`     = #{clientIp},
+            `client_ua`     = #{clientUa}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 </mapper>

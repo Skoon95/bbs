@@ -138,4 +138,14 @@ public class ArticleController {
         return this.articleService.getCommentsOf(articleIndex);
     }
 
+    @RequestMapping(value = "comment",
+            method = RequestMethod.DELETE,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String deleteComment(CommentEntity comment) {
+        boolean result = this.articleService.deleteComment(comment);
+        return String.valueOf(result);
+    }
+
+
 }
